@@ -2,6 +2,7 @@
 // =============================================================
 var express = require("express");
 var path = require("path");
+var fs = require("fs");
 
 // Sets up the Express App
 // =============================================================
@@ -16,17 +17,17 @@ app.use(express.json());
 // =============================================================
 
 // Basic route that sends the user first to the AJAX Page
-app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname, "view.html"));
+app.get("/notes", function(req, res) {
+    res.sendFile(path.join(__dirname, "notes.html"));
   });
   
-  app.get("/add", function(req, res) {
-    res.sendFile(path.join(__dirname, "add.html"));
+  app.get("*", function(req, res) {
+    res.sendFile(path.join(__dirname, "index.html"));
   });
 
   // Displays all characters
-app.get("/api/characters", function(req, res) {
-    return res.json(characters);
+app.get("../db/db.json", function(req, res) {
+    return res.json();
   });
 
   // Create New Characters - takes in JSON input
