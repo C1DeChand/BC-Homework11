@@ -16,35 +16,43 @@ app.use(express.json());
 // Routes
 // =============================================================
 
-// Basic route that sends the user first to the AJAX Page
+
+var notes = [
+  {
+    title: "test",
+    desc: "description",
+    id: 1
+  }
+]
+// Basic route that sends the user first to the index page
+app.get("/", function(req, res) {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
 app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "notes.html"));
   });
-  
-  app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "index.html"));
-  });
 
-  // Displays all characters
-app.get("../db/db.json", function(req, res) {
+  // Displays all notes
+app.get("/api/notes", function(req, res) {
     return res.json();
   });
 
-  // Create New Characters - takes in JSON input
-app.post("/api/characters", function(req, res) {
+  // Create New Notes - takes in JSON input
+app.post("/api/notes", function(req, res) {
     // req.body hosts is equal to the JSON post sent from the user
     // This works because of our body parsing middleware
-    var newCharacter = req.body;
+    var newNote = req.body;
   
-    // Using a RegEx Pattern to remove spaces from newCharacter
+    // Using a RegEx Pattern to remove spaces from newNote
     // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-    newCharacter.routeName = newCharacter.name.replace(/\s+/g, "").toLowerCase();
+    newNote.routeName = newNote.name.replace(/\s+/g, "").toLowerCase();
   
-    console.log(newCharacter);
+    console.log(newNote);
   
-    characters.push(newCharacter);
+    characters.push(newNote);
   
-    res.json(newCharacter);
+    res.json(newNote);
   });
   
   app.listen(PORT, function() {
