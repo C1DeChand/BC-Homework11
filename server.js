@@ -25,12 +25,12 @@ var notes = [
   }
 ];
 
-function updateDB () {
-  fs.writeFile("./db/db.json", notes, (err) => {
-    if (err) throw err;
-    console.log('The file has been saved!');
-  });
-}
+// function updateDB () {
+//   fs.appendFile("./db/db.json", notes, (err) => {
+//     if (err) throw err;
+//     console.log('The file has been saved!');
+//   });
+// }
 
 // Basic route that sends the user first to the index page
 app.get("/", function(req, res) {
@@ -39,30 +39,31 @@ app.get("/", function(req, res) {
 
 app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "./public/notes.html"));
-  });
+});
 
   // Displays all notes
 app.get("/api/notes", function(req, res) {
     return res.json(notes);
-  });
+});
 
-  // Create New Notes - takes in JSON input
-// app.post("/api/notes", function(req, res) {
-//     // req.body hosts is equal to the JSON post sent from the user
-//     // This works because of our body parsing middleware
-//     var newNote = req.body;
+app.post("/db/db.json", function(req, res) {
   
-//     // Using a RegEx Pattern to remove spaces from newNote
-//     // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-//     newNote.routeName = newNote.name.replace(/\s+/g, "").toLowerCase();
+  var newNote = req.body
+
+  newNote.routeName = newNote.name.replace(/\s+/g, "").toLowerCase();
+
+  console.log(newNote);
   
-//     console.log(newNote);
+  notes.push(newNote);
   
-//     notes.push(newNote);
-  
-//     res.json(newNote);
-//   });
-  
-  app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
-  });
+  res.json(newNote);
+
+})
+
+app.get("/db/db.json", function(req, res) {
+  return res.json(notes);
+});
+
+app.listen(PORT, function() {
+  console.log("App listening on PORT " + PORT);
+});
