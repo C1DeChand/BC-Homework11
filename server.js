@@ -17,7 +17,7 @@ app.use(express.static('public'))
 // Routes
 // =============================================================
 
-var notes = [
+var notesArr = [
   {
     title: "test",
     desc: "description",
@@ -36,22 +36,8 @@ app.get("/notes", function(req, res) {
 
   // Displays all notes
 app.get("/api/notes", function(req, res) {
-    return res.json(notes);
+    return res.json(notesArr);
 });
-
-app.post("/api/notes", function(req, res) {
-  
-  var newNote = req.body
-
-  newNote.routeName = newNote.name.replace(/\s+/g, "").toLowerCase();
-
-  console.log(newNote);
-  
-  notes.push(newNote);
-  
-  res.json(newNote);
-
-})
 
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
