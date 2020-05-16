@@ -17,7 +17,6 @@ app.use(express.static('public'))
 // Routes
 // =============================================================
 
-
 var notes = [
   {
     title: "test",
@@ -37,7 +36,7 @@ app.get("/notes", function(req, res) {
 
   // Displays all notes
 app.get("/api/notes", function(req, res) {
-    return res.json();
+    return res.json(notes);
   });
 
   // Create New Notes - takes in JSON input
