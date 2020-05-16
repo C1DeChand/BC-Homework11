@@ -25,13 +25,6 @@ var notes = [
   }
 ];
 
-// function updateDB () {
-//   fs.appendFile("./db/db.json", notes, (err) => {
-//     if (err) throw err;
-//     console.log('The file has been saved!');
-//   });
-// }
-
 // Basic route that sends the user first to the index page
 app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "./public/index.html"));
@@ -46,7 +39,7 @@ app.get("/api/notes", function(req, res) {
     return res.json(notes);
 });
 
-app.post("/db/db.json", function(req, res) {
+app.post("/api/notes", function(req, res) {
   
   var newNote = req.body
 
@@ -59,10 +52,6 @@ app.post("/db/db.json", function(req, res) {
   res.json(newNote);
 
 })
-
-app.get("/db/db.json", function(req, res) {
-  return res.json(notes);
-});
 
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
