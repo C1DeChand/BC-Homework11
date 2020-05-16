@@ -25,6 +25,17 @@ var notesArr = [
   }
 ];
 
+// add ids to the objects in notesArr
+function idLooper () {
+
+  for (i = 0; i < notesArr.length; i++) {
+    notesArr.id = i
+  }
+
+}
+
+idLooper()
+
 // Basic route that sends the user first to the index page
 app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "./public/index.html"));
@@ -36,14 +47,19 @@ app.get("/notes", function(req, res) {
 
   // Displays all notes
 app.get("/api/notes", function(req, res) {
-    return res.json(notesArr);
+  res.sendFile(path.join(__dirname, "./db/db.json"));
+  notesArr.push(res)
 });
 
-// app.post("/api/notes", function(req, res) {
-//   return res.json(notesArr);
-// });
+app.post("/api/notes", function(req, res) {
 
-notesArr.push(activeNote)
+  console.log(req.body);
+
+  fs.appendFile("./db/db.json", JSON.stringify(notesArr), "utf-8", function(err, data) {
+    if (err) throw err
+  });
+
+});
 
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
