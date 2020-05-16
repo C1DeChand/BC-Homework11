@@ -20,7 +20,7 @@ app.use(express.static('public'))
 var notesArr = [
   {
     title: "test",
-    desc: "description",
+    text: "description",
     id: 1
   }
 ];
