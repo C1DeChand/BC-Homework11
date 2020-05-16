@@ -39,6 +39,11 @@ app.get("/api/notes", function(req, res) {
     return res.json(notesArr);
 });
 
+app.post("/api/notes", function(req, res) {
+  handleNoteSave()
+  return res.json(notesArr);
+});
+
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
 });
