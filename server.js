@@ -51,7 +51,7 @@ app.post("/api/notes", function(req, res) {
   
     console.log(newNote);
   
-    characters.push(newNote);
+    notes.push(newNote);
   
     res.json(newNote);
   });
