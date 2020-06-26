@@ -17,14 +17,10 @@ app.use(express.static('public'))
 // Routes
 // =============================================================
 
-var notesArr = [
-  {
-    title: "test",
-    text: "description test is here",
-    id: 1
-  }
-];
-
+var notesArr = [];
+var objs = fs.readFileSync("./db/db.json")
+notesArr.push(objs)
+// console.log(objs)
 // add ids to the objects in notesArr
 function idLooper () {
 
@@ -48,14 +44,13 @@ app.get("/notes", function(req, res) {
   // Displays all notes
 app.get("/api/notes", function(req, res) {
   res.sendFile(path.join(__dirname, "./db/db.json"));
-  notesArr.push(res)
 });
 
 app.post("/api/notes", function(req, res) {
 
   console.log(req.body);
 
-  fs.appendFile("./db/db.json", JSON.stringify(notesArr), "utf-8", function(err, data) {
+  fs.appendFile("./db/db.json", JSON.stringify(req.body), "utf-8", function(err, data) {
     if (err) throw err
   });
 
