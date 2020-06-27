@@ -17,20 +17,16 @@ app.use(express.static('public'))
 // Routes
 // =============================================================
 
-var notesArr = [];
-var objs = fs.readFileSync("./db/db.json")
-notesArr.push(objs)
-// console.log(objs)
+const jsonArray = require("./db/db.json")
+
 // add ids to the objects in notesArr
-function idLooper () {
+function idLooper (notesArr) {
 
   for (i = 0; i < notesArr.length; i++) {
     notesArr.id = i
   }
 
 }
-
-idLooper()
 
 // Basic route that sends the user first to the index page
 app.get("/", function(req, res) {
@@ -49,8 +45,11 @@ app.get("/api/notes", function(req, res) {
 app.post("/api/notes", function(req, res) {
 
   console.log(req.body);
+  var note = req.body;
+  idLooper(note)
+  jsonArray.push(note)
 
-  fs.appendFile("./db/db.json", JSON.stringify(req.body), "utf-8", function(err, data) {
+  fs.writeFile("./db/db.json", JSON.stringify(jsonArray), "utf-8", function(err, data) {
     if (err) throw err
   });
 
