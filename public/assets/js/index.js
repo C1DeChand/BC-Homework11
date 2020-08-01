@@ -51,9 +51,11 @@ var renderActiveNote = function() {
 
 // Get the note data from the inputs, save it to the db and update the view
 var handleNoteSave = function() {
+  var idNumber = Math.floor(Math.random() * 1500)
   var newNote = {
     title: $noteTitle.val(),
-    text: $noteText.val()
+    text: $noteText.val(),
+    id: idNumber
   };
 
   saveNote(newNote).then(function(data) {
@@ -121,7 +123,6 @@ var renderNoteList = function(notes) {
     $li.append($span, $delBtn);
     noteListItems.push($li);
   }
-
   $noteList.append(noteListItems);
 };
 

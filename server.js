@@ -19,15 +19,6 @@ app.use(express.static('public'))
 
 const jsonArray = require("./db/db.json")
 
-// add ids to the objects in notesArr
-function idLooper (notesArr) {
-
-  for (i = 0; i < notesArr.length; i++) {
-    notesArr.id = i
-  }
-
-}
-
 // Basic route that sends the user first to the index page
 app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "./public/index.html"));
@@ -46,7 +37,6 @@ app.post("/api/notes", function(req, res) {
 
   console.log(req.body);
   var note = req.body;
-  idLooper(note)
   jsonArray.push(note)
 
   fs.writeFile("./db/db.json", JSON.stringify(jsonArray), "utf-8", function(err, data) {
@@ -54,6 +44,19 @@ app.post("/api/notes", function(req, res) {
   });
 
 });
+
+app.delete("/api/notes/:id", function(req, res) {
+  let noteID = req.params.id
+  console.log(noteID)
+  const notesArr = jsonArray
+  console.log(notesArr)
+  let filtered = notesArr.filter(note => note.id !== noteID);
+  console.log(filtered)
+
+  fs.writeFile("./db/db.json", JSON.stringify(filtered), "utf-8", function(err, data) {
+    if (err) throw err
+  });
+})
 
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
